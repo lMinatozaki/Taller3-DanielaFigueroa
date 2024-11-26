@@ -63,3 +63,19 @@ async def add_content(index: int, subjectIndex: int, content: Content):
         raise HTTPException(status_code=404, detail="Materia no encontrada")
     student.academicRecord[subjectIndex].contents.append(content)
     return {"msg": "Contenido agregado exitosamente", "content": content}
+
+#modificar un estudiante
+@app.put("/estudiantes/{index}")
+async def update_student(index: int, updStudent: Student):
+    if index < 0 or index >= len(students):
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    students[index] = updStudent
+    return {"msg": "Estudiante modificado exitosamente", "student": updStudent}
+
+#eliminar un estudiante
+@app.delete("/estudiantes/{index}")
+async def delete_student(index: int):
+    if index < 0 or index >= len(students):
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    deletedStudent = students.pop(index)
+    return {"msg": "Estudiante eliminado exitosamente", "student": deletedStudent}
